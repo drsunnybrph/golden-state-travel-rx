@@ -49,3 +49,12 @@ on the marketing pages.
 
 ## Hosting (GitHub Pages)
 Push to repo root → Settings → Pages → Deploy from branch → `main` / root.
+
+## Brand imagery (added)
+- `emblem-512.png` + `favicon.ico` / `favicon-32.png` / `apple-touch-icon.png` — logo + favicons (nav mark + browser tab).
+- `hero-bridge-bear.jpg` — home hero (bear + Golden Gate, right-weighted; headline sits on the left scrim).
+- `page-hero-fog.jpg` — interior page-hero band (foggy towers).
+- `og-card.jpg` — social/link-preview image (1200×630). The `og:image` tag uses the
+  `goldenstatetravelrx.com` absolute URL, so previews only render once that domain is live;
+  until then it's harmless. All images are AI-generated originals (generic grizzly, no Bear
+  Flag/state seal) — free for you to use.
