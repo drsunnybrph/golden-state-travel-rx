@@ -429,9 +429,11 @@ footer{background:var(--forest);padding:52px 40px 24px;border-top:1px solid rgba
 .nav-brand-icon img{width:100%;height:100%;object-fit:contain;display:block;border-radius:50%;}
 
 /* HERO — bear + Golden Gate illustration, text over a left scrim */
-.hero{min-height:clamp(560px,66vh,700px)!important;
-      background:linear-gradient(90deg,rgba(8,38,50,.95) 0%,rgba(10,50,66,.82) 32%,rgba(11,58,75,.5) 60%,rgba(11,58,75,.18) 100%),
-      url("hero-bridge-bear.jpg") right center/cover no-repeat !important;}
+.hero{position:relative;overflow:hidden;min-height:clamp(560px,66vh,700px)!important;
+      background:url("hero-poster.jpg") 74% center/cover no-repeat !important;}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:74% center;z-index:0;}
+.hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+      background:linear-gradient(90deg,rgba(8,38,50,.93) 0%,rgba(10,50,66,.8) 30%,rgba(11,58,75,.46) 58%,rgba(11,58,75,.14) 100%);}
 .hero-bridge,.hero-fog,.hero-glow,.hero-glow2{display:none!important;}
 .hero h1,.hero-desc{text-shadow:0 2px 18px rgba(4,20,28,.55);}
 
@@ -440,7 +442,5 @@ footer{background:var(--forest);padding:52px 40px 24px;border-top:1px solid rgba
       url("page-hero-fog.jpg") center/cover no-repeat !important;}
 .page-hero::before{display:none!important;}
 
-@media(max-width:768px){
-  .hero{background:linear-gradient(180deg,rgba(8,38,50,.86),rgba(11,58,75,.62) 55%,rgba(11,58,75,.5)),
-        url("hero-bridge-bear.jpg") center right/cover no-repeat !important;}
-}
+@media(max-width:768px){ .hero-video{display:none!important;} .hero{background-position:72% center!important;} }
+@media(prefers-reduced-motion:reduce){ .hero-video{display:none!important;} }
