@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Book a Travel Health Consultation | a licensed California pharmacist | California</title>
+<meta name="description" content="Request a virtual travel health or naloxone consultation with Golden State Travel Rx using a quick on-site form. Travel-medication and naloxone furnishing for patients across California."/>
+<meta property="og:title" content="Book a Travel Health Consultation | a licensed California pharmacist"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://goldenstatetravelrx.com/book.html"/>
+<link rel="canonical" href="https://goldenstatetravelrx.com/book.html"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+/* ─── PREMIUM BOOKING (scoped: bk-) ─── */
+.bk-wrap{max-width:1000px;margin:0 auto;}
+.bk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:8px;}
+@media(max-width:880px){.bk-grid{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto;}}
+.bk-card{position:relative;background:#fff;border:1.5px solid var(--gray4);border-radius:24px;padding:34px 28px;
+  display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s,border-color .22s;box-shadow:var(--shadow);}
+.bk-card:hover{transform:translateY(-5px);box-shadow:var(--shadow2);border-color:var(--mint2);}
+.bk-card.feat{background:linear-gradient(160deg,var(--forest),var(--emerald) 70%,#04453a);color:#fff;border-color:transparent;box-shadow:0 26px 64px rgba(6,78,59,.32);}
+.bk-card.feat::before{content:'';position:absolute;inset:0;border-radius:24px;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;}
+.bk-feat-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#D9B45A,#C8973A);color:#3a2c08;font-size:.66rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:6px 16px;border-radius:50px;white-space:nowrap;box-shadow:0 6px 16px rgba(200,151,58,.4);z-index:3;}
+.bk-card>*{position:relative;z-index:2;}
+.bk-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px;background:var(--mint);color:var(--emerald2);}
+.bk-card.feat .bk-icon{background:rgba(255,255,255,.12);color:#D9B45A;}
+.bk-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;line-height:1.1;margin-bottom:4px;}
+.bk-dur{font-size:.74rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray2);font-weight:600;margin-bottom:14px;}
+.bk-card.feat .bk-dur{color:rgba(255,255,255,.55);}
+.bk-price{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:700;color:var(--forest);line-height:1;margin-bottom:16px;}
+.bk-card.feat .bk-price{color:#fff;}
+.bk-price small{font-size:.8rem;font-family:'Inter',sans-serif;color:var(--gray2);font-weight:500;}
+.bk-card.feat .bk-price small{color:rgba(255,255,255,.5);}
+.bk-feats{list-style:none;padding:0;margin:0 0 24px;flex:1;}
+.bk-feats li{display:flex;gap:9px;align-items:flex-start;font-size:.83rem;line-height:1.5;padding:6px 0;color:var(--gray);}
+.bk-card.feat .bk-feats li{color:rgba(255,255,255,.82);}
+.bk-feats i{color:var(--emerald3);margin-top:3px;flex-shrink:0;font-size:.8rem;}
+.bk-card.feat .bk-feats i{color:#D9B45A;}
+.bk-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;width:100%;border-radius:50px;padding:14px;
+  font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;text-decoration:none;cursor:pointer;transition:all .2s;
+  background:var(--mint);color:var(--emerald);border:1.5px solid var(--mint2);}
+.bk-btn:hover{background:var(--emerald);color:#fff;border-color:var(--emerald);}
+.bk-card.feat .bk-btn{background:#fff;color:var(--forest);border:1.5px solid rgba(217,180,90,.5);}
+.bk-card.feat .bk-btn:hover{background:#D9B45A;color:#3a2c08;border-color:#D9B45A;}
+
+/* step rail */
+.bk-rail{margin-top:64px;}
+.bk-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px;}
+@media(max-width:780px){.bk-steps{grid-template-columns:1fr 1fr;}}
+@media(max-width:460px){.bk-steps{grid-template-columns:1fr;}}
+.bk-step{background:#fff;border:1.5px solid var(--gray4);border-radius:18px;padding:24px 20px;position:relative;}
+.bk-step-n{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#D9B45A;line-height:1;}
+.bk-step h4{font-size:.92rem;font-weight:700;color:var(--text);margin:8px 0 5px;}
+.bk-step p{font-size:.8rem;color:var(--gray);line-height:1.55;}
+.bk-secure{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:30px;color:var(--gray2);font-size:.78rem;}
+.bk-secure span{display:flex;align-items:center;gap:7px;}
+.bk-secure i{color:var(--emerald3);}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">
+    <div class="nav-brand-icon"><i class="fa-solid fa-bridge"></i></div>
+    <div class="nav-brand-text">Golden State <span>Travel Rx</span></div>
+  </a>
+  <ul class="nav-menu" id="navMenu">
+    <li class="nav-item"><a class="nav-link" href="index.html" data-nav="home">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="travel-health.html" data-nav="travel">Travel Health</a></li>
+    <li class="nav-item"><a class="nav-link" href="naloxone.html" data-nav="naloxone">Naloxone</a></li>
+    <li class="nav-item"><a class="nav-link" href="about.html" data-nav="about">About</a></li>
+    <li class="nav-item"><a class="nav-link" href="pay.html" data-nav="pay">Pay</a></li>
+    <li class="nav-item"><a class="nav-link nav-cta" href="book.html" data-nav="book"><i class="fa-solid fa-calendar-check"></i> Book Now</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMobileMenu()" id="hamburger" aria-label="Toggle menu">☰</button>
+</nav>
+<main>
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow"><i class="fa-solid fa-calendar-check"></i> Scheduling</span>
+      <h1>Reserve Your <em>Consultation</em></h1>
+      <p>Choose your consult and send a quick request below — no health details needed here. I'll reply with a secure link to schedule, pay, and complete your private intake. Available in English, Punjabi, and Hindi for patients across California.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="bk-wrap">
+
+      <div class="center" style="margin-bottom:34px;">
+        <span class="eyebrow">Choose Your Consult</span>
+        <h2 class="section-title">Three Ways to <em>Travel Ready</em></h2>
+      </div>
+
+      <!-- The pricing cards below jump to the on-site booking-request form (selectService).
+           The form submits to your Google Sheet (set BOOKING_ENDPOINT in script.js). -->
+      <div class="bk-grid">
+        <div class="bk-card">
+          <div class="bk-icon"><i class="fa-solid fa-earth-americas"></i></div>
+          <div class="bk-name">Standard Consult</div>
+          <div class="bk-dur">30 minutes</div>
+          <div class="bk-price">$75</div>
+          <ul class="bk-feats">
+            <li><i class="fa-solid fa-check"></i>Single-destination risk assessment</li>
+            <li><i class="fa-solid fa-check"></i>Vaccine counseling &amp; clinic referral</li>
+            <li><i class="fa-solid fa-check"></i>OTC medication guidance</li>
+            <li><i class="fa-solid fa-check"></i>Written travel plan</li>
+            <li><i class="fa-solid fa-check"></i>Eligible medication furnishing</li>
+          </ul>
+          <a class="bk-btn" href="#bookForm" onclick="selectService('Standard Travel Consult');return false;"><i class="fa-solid fa-calendar-check"></i> Reserve This Consult</a>
+        </div>
+
+        <div class="bk-card feat">
+          <div class="bk-feat-badge">Most Popular</div>
+          <div class="bk-icon"><i class="fa-solid fa-plane-departure"></i></div>
+          <div class="bk-name">Comprehensive</div>
+          <div class="bk-dur">60 minutes</div>
+          <div class="bk-price">$125</div>
+          <ul class="bk-feats">
+            <li><i class="fa-solid fa-check"></i>Everything in Standard</li>
+            <li><i class="fa-solid fa-check"></i>Multi-destination planning</li>
+            <li><i class="fa-solid fa-check"></i>Food &amp; water safety deep-dive</li>
+            <li><i class="fa-solid fa-check"></i>Vaccine schedule coordination</li>
+            <li><i class="fa-solid fa-check"></i>Full travel-medication furnishing</li>
+            <li><i class="fa-solid fa-check"></i>Follow-up message included</li>
+          </ul>
+          <a class="bk-btn" href="#bookForm" onclick="selectService('Comprehensive Travel Consult');return false;"><i class="fa-solid fa-calendar-check"></i> Reserve This Consult</a>
+        </div>
+
+        <div class="bk-card">
+          <div class="bk-icon"><i class="fa-solid fa-people-group"></i></div>
+          <div class="bk-name">Family Package</div>
+          <div class="bk-dur">60 minutes · up to 4</div>
+          <div class="bk-price">$199</div>
+          <ul class="bk-feats">
+            <li><i class="fa-solid fa-check"></i>Everything in Comprehensive</li>
+            <li><i class="fa-solid fa-check"></i>Up to 4 travelers — adults &amp; teens 13+</li>
+            <li><i class="fa-solid fa-check"></i>Younger children referred to a pediatric travel clinic</li>
+            <li><i class="fa-solid fa-check"></i>Shared written summary</li>
+          </ul>
+          <a class="bk-btn" href="#bookForm" onclick="selectService('Family Travel Package');return false;"><i class="fa-solid fa-calendar-check"></i> Reserve This Consult</a>
+        </div>
+      </div>
+
+      <div class="bk-secure">
+        <span><i class="fa-solid fa-shield-halved"></i> No health info on this form</span>
+        <span><i class="fa-solid fa-reply"></i> Reply within 1 business day</span>
+        <span><i class="fa-solid fa-video"></i> Private video visit</span>
+      </div>
+
+      <div class="bf-wrap" id="bookForm">
+        <div class="bf-head">
+          <span class="eyebrow">Booking Request</span>
+          <h2 class="section-title" style="margin-bottom:6px;">Request Your <em>Consult</em></h2>
+          <p style="font-size:.85rem;color:var(--gray);line-height:1.65;max-width:460px;margin:0 auto;">Tell me which consult you'd like and when works. I'll reply by email with a secure link to schedule, pay, and complete your private intake. Under a minute, and no health details needed here.</p>
+        </div>
+        <div class="bf-grid">
+          <div class="bf-field full">
+            <label for="bf-service">Service <span class="req">*</span></label>
+            <select class="bf-select" id="bf-service" name="service" required>
+              <optgroup label="Travel Health">
+                <option value="Standard Travel Consult ($75, 30 min)" selected>Standard Travel Consult — $75 (30 min)</option>
+                <option value="Comprehensive Travel Consult ($125, 60 min)">Comprehensive Travel Consult — $125 (60 min)</option>
+                <option value="Family Travel Package ($199, up to 4)">Family Travel Package — $199 (up to 4)</option>
+              </optgroup>
+              <optgroup label="Naloxone Furnishing">
+                <option value="Naloxone — Individual ($29, 15 min)">Naloxone — Individual — $29 (15 min)</option>
+                <option value="Naloxone — Household / Caregiver ($49, up to 4)">Naloxone — Household / Caregiver — $49 (up to 4)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="bf-field"><label for="bf-name">Full name <span class="req">*</span></label><input class="bf-input" id="bf-name" name="name" type="text" autocomplete="name" required/></div>
+          <div class="bf-field"><label for="bf-email">Email <span class="req">*</span></label><input class="bf-input" id="bf-email" name="email" type="email" autocomplete="email" required/></div>
+          <div class="bf-field"><label for="bf-phone">Phone (optional)</label><input class="bf-input" id="bf-phone" name="phone" type="tel" autocomplete="tel"/></div>
+          <div class="bf-field"><label for="bf-lang">Preferred language</label><select class="bf-select" id="bf-lang" name="language"><option>English</option><option>Punjabi</option><option>Hindi</option></select></div>
+          <div class="bf-field"><label for="bf-when">Timeframe</label><select class="bf-select" id="bf-when" name="timeframe"><option>Within a few days</option><option>Within 1 week</option><option>Within 2 weeks</option><option>Just exploring</option></select></div>
+          <div class="bf-field"><label for="bf-tod">Preferred time of day</label><select class="bf-select" id="bf-tod" name="time_of_day"><option>No preference</option><option>Morning</option><option>Afternoon</option><option>Evening</option></select></div>
+          <div class="bf-field full"><label for="bf-pharm">Preferred pickup pharmacy (optional)</label><input class="bf-input" id="bf-pharm" name="pharmacy" type="text" placeholder="e.g., CVS Fairfield, or your local pharmacy"/></div>
+          <div class="bf-ack">
+            <input type="checkbox" id="bf-ack" name="ack"/>
+            <label for="bf-ack">I understand this form is for <strong>scheduling only</strong>. I will <strong>not</strong> include any health information, symptoms, medications, or medical history here — my private intake is completed separately and securely.</label>
+          </div>
+          <div class="bf-status" id="bf-status"></div>
+          <button class="bf-submit" type="button" onclick="submitBooking()"><i class="fa-solid fa-paper-plane"></i> Send Booking Request</button>
+          <p class="bf-priv">No health information is collected on this form. Consultations and furnishing are for patients physically located in California.</p>
+        </div>
+      </div>
+
+      <div class="bk-rail">
+        <div class="center">
+          <span class="eyebrow">What Happens Next</span>
+          <h2 class="section-title">From Reserve to <em>Bon Voyage</em></h2>
+        </div>
+        <div class="bk-steps">
+          <div class="bk-step"><div class="bk-step-n">01</div><h4>Send Request</h4><p>Fill the short form — contact and timing only, no health details. Under a minute.</p></div>
+          <div class="bk-step"><div class="bk-step-n">02</div><h4>Schedule &amp; Pay</h4><p>I email you a secure link to lock in a time and pay by card.</p></div>
+          <div class="bk-step"><div class="bk-step-n">03</div><h4>Secure Intake</h4><p>You complete your private health intake in a HIPAA-secure portal before the visit.</p></div>
+          <div class="bk-step"><div class="bk-step-n">04</div><h4>Visit &amp; Done</h4><p>Your video consult, then your plan and any eligible medications sent to your pharmacy.</p></div>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="margin-top:40px;">
+        <p><i class="fa-solid fa-circle-info"></i><span><strong>Before your visit:</strong> have your itinerary, travel dates, current medications, allergies, and your preferred pharmacy ready — that's where any eligible medications will be sent. Questions first? Email <a href="mailto:drsunnybrph@gmail.com" style="color:var(--forest);font-weight:700;">drsunnybrph@gmail.com</a>. <strong>Naloxone furnishing</strong> is also available under California's statewide protocol (BPC § 4052.01) — mention it when you reach out.</span></p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Golden State <span>Travel Rx</span></div>
+        <div class="footer-tagline">"Clinical expertise without the waiting room."<br/>Dr. Sunny B, PharmD — Licensed California Pharmacist<br/>Independent travel-medicine consultations &amp; medication furnishing<br/>Telehealth across California · Based in Solano &amp; Ventura County</div>
+        <div style="margin-top:10px;"><a href="mailto:drsunnybrph@gmail.com" style="color:rgba(255,255,255,.45);font-size:.77rem;text-decoration:none;font-family:'Inter',sans-serif;"><i class="fa-solid fa-envelope" style="font-size:.7rem;color:var(--emerald4);margin-right:5px;"></i>drsunnybrph@gmail.com</a></div>
+      </div>
+      <div class="footer-col"><h4>Travel Health</h4><ul>
+        <li><a href="travel-health.html"><i class="fa-solid fa-plane-departure"></i>Consultations</a></li>
+        <li><a href="travel-health.html#pricing"><i class="fa-solid fa-tag"></i>Pricing</a></li>
+        <li><a href="travel-health.html#how"><i class="fa-solid fa-list-check"></i>How It Works</a></li>
+        <li><a href="naloxone.html"><i class="fa-solid fa-kit-medical"></i>Naloxone Furnishing</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Practice</h4><ul>
+        <li><a href="about.html"><i class="fa-solid fa-user-doctor"></i>About the Practice</a></li>
+        <li><a href="book.html"><i class="fa-solid fa-calendar-check"></i>Book a Consult</a></li>
+        <li><a href="pay.html"><i class="fa-solid fa-credit-card"></i>Pay Now</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul>
+        <li><a href="mailto:drsunnybrph@gmail.com"><i class="fa-solid fa-envelope"></i>Email</a></li>
+        <li><a href="book.html"><i class="fa-solid fa-calendar-check"></i>Book online</a></li>
+        <li><a href="book.html"><i class="fa-solid fa-clock"></i>Schedule Online</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <div class="footer-legal">© 2026 Golden State Travel Rx · Dr. Sunny B, PharmD · Licensed California Pharmacist — a Doctor of Pharmacy, not a medical doctor (active license on file).<br/>Travel medications are furnished under independent pharmacist authority pursuant to California Business &amp; Professions Code § 4052(a)(10)(A)(3) and 16 CCR § 1746.5. Naloxone is furnished pursuant to the statewide protocol under California Business &amp; Professions Code § 4052.01 and 16 CCR § 1746.3, which includes a mandatory consultation that cannot be waived. No collaborative practice agreement required. Furnishing is limited to CDC-recommended travel medications that do not require a diagnosis and to naloxone under the statewide protocol. Services are available to patients physically located in California. No on-site vaccinations; required immunizations are referred to a local clinic. Educational content only — not a substitute for emergency care or your primary care provider.</div>
+      </div>
+      <div class="footer-love"><i class="fa-solid fa-plane-departure"></i> Clinical expertise without the waiting room.</div>
+    </div>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

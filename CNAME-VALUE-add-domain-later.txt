@@ -1,0 +1,5 @@
+goldenstatetravelrx.com
+
+# Do NOT rename this to "CNAME" until you have registered goldenstatetravelrx.com
+# and pointed its DNS at GitHub Pages. Adding it early is what 404-ed the old site.
+# When ready: Settings -> Pages -> Custom domain -> goldenstatetravelrx.com
