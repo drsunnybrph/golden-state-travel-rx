@@ -442,5 +442,5 @@ footer{background:var(--forest);padding:52px 40px 24px;border-top:1px solid rgba
       url("page-hero-fog.jpg") center/cover no-repeat !important;}
 .page-hero::before{display:none!important;}
 
-@media(max-width:768px){ .hero-video{display:none!important;} .hero{background-position:72% center!important;} }
+@media(max-width:768px){ .hero{background-position:72% center!important;} .hero-video{object-position:72% center;} }
 @media(prefers-reduced-motion:reduce){ .hero-video{display:none!important;} }
