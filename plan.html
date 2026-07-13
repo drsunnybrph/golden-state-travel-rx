@@ -107,6 +107,21 @@ input[type=range]{flex:1;accent-color:var(--orange);height:6px;}
 .srcline{font-size:.72rem;color:var(--gray2);line-height:1.5;margin-top:16px;}
 
 
+
+.pacenote{background:var(--mint);border:1.5px solid var(--mint2);border-radius:11px;padding:12px 14px;margin-bottom:14px;font-size:.79rem;color:var(--gray);line-height:1.6;}
+.pacenote i{color:var(--orange);margin-right:5px;}
+.pacenote strong{color:var(--forest);}
+/* route legs */
+.legbar{display:flex;align-items:center;gap:8px;margin:20px 0 4px;padding:8px 13px;border-radius:10px;
+  background:var(--forest);color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:.83rem;letter-spacing:.3px;}
+.legbar i{color:var(--gold);}
+.legbar em{margin-left:auto;font-style:normal;font-weight:500;font-size:.74rem;color:rgba(255,255,255,.66);}
+.dayrow:first-child{border-top:none;padding-top:0;}
+.legbar + .dayrow{border-top:none;}
+.slot.move{background:var(--slate3);border-radius:9px;padding:8px 10px;margin:2px 0;}
+.slot.move i{color:var(--orange)!important;}
+.slot.move strong{color:var(--forest);}
+
 /* risk profile cards */
 .riskgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px;}
 .rcard{border-radius:13px;padding:14px 16px;border:1.5px solid;}
@@ -220,6 +235,7 @@ input[type=range]{flex:1;accent-color:var(--orange);height:6px;}
         <div class="res-grid">
           <div class="panel">
             <h3><i class="fa-solid fa-map-location-dot"></i> Your itinerary</h3>
+            <div class="pacenote" id="paceNote" style="display:none;"></div>
             <div id="itinerary"></div>
           </div>
           <div class="panel">
@@ -242,7 +258,7 @@ input[type=range]{flex:1;accent-color:var(--orange);height:6px;}
     <div class="footer-grid">
       <div>
         <div class="footer-brand">Golden State <span>Travel Rx</span></div>
-        <div class="footer-tagline">"Clinical expertise without the waiting room."<br/>Dr. Sunny B, PharmD — Licensed California Pharmacist<br/>Independent travel-medicine consultations &amp; medication furnishing<br/>Telehealth across California · Based in Solano &amp; Ventura County</div>
+        <div class="footer-tagline">"Clinical expertise without the waiting room."<br/>Dr. Sunny B, PharmD — Licensed California Pharmacist<br/>Independent travel-medicine consultations &amp; medication furnishing<br/>Telehealth for patients anywhere in California</div>
         <div style="margin-top:10px;"><a href="mailto:drsunnybrph@gmail.com" style="color:rgba(255,255,255,.45);font-size:.77rem;text-decoration:none;font-family:'Inter',sans-serif;"><i class="fa-solid fa-envelope" style="font-size:.7rem;color:var(--emerald4);margin-right:5px;"></i>drsunnybrph@gmail.com</a></div>
       </div>
       <div class="footer-col"><h4>Travel Health</h4><ul>
@@ -272,6 +288,7 @@ input[type=range]{flex:1;accent-color:var(--orange);height:6px;}
 
 <script src="script.js"></script>
 <script src="plan-data.js"></script>
+<script src="plan-legs.js"></script>
 <script src="plan.js"></script>
 </body>
 </html>

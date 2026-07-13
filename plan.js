@@ -11,29 +11,110 @@ const WORKER_URL = ""; // e.g. "https://gstr-feeds.YOURNAME.workers.dev"
 const CDC_URL   = c => `https://wwwnc.cdc.gov/travel/destinations/traveler/none/${DEST[c].cdc}`;
 const STATE_URL = c => `https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/${DEST[c].adv}-travel-advisory.html`;
 
-/* flexible filler days for longer trips */
-const FLEX = [
-  ["","Free morning — café & neighborhood wander","food","slow travel, local pace"],
-  ["","Local market & street-food crawl","food","eat where locals eat"],
-  ["","Optional day trip or excursion","adventure","add-on based on your interests"],
-  ["","Beach / spa / rest day","beach","recover and recharge"],
-  ["","Museum & culture morning","culture","go deeper on the history"],
-  ["","Sunset viewpoint & farewell dinner","food","toast the trip"]
+/* in-city soft slots — used to LENGTHEN a stay, never to jump cities.
+   Separate morning/afternoon pools so the wording always fits the slot,
+   and deliberately generic so they read right in a city OR on an island. */
+const AM_SOFT = [
+  ["Slow morning & local café","food","travel at the local pace"],
+  ["Market & street-food crawl","food","eat where locals eat"],
+  ["Optional day trip from {c}","adventure","an add-on based on your interests"],
+  ["Explore {c} at your own pace","culture","go past the highlights"],
+  ["Guided half-day experience","culture","cooking, craft, or a local walk"],
+  ["Walking tour with a local guide","culture","the stories behind the streets"],
+  ["Hidden corners of {c}","culture","what the guidebooks skip"],
+  ["Active morning","adventure","hike, bike, swim — your call"]
 ];
+const PM_SOFT = [
+  ["Afternoon at leisure","beach","recover, swim, or simply wander"],
+  ["Sunset spot & golden hour","nature","the view worth waiting for"],
+  ["Shopping & neighborhood wander","culture","bring something home"],
+  ["Free afternoon in {c}","beach","nothing scheduled, on purpose"],
+  ["Spa, rest & reset","beach","a real rest day, built in"],
+  ["Local long lunch","food","the two-hour kind"],
+  ["Photo walk at golden hour","culture","the light is best now"],
+  ["Evening food tour","food","dinner as an activity"]
+];
+const softSlot = (city,i,pm) => {
+  const pool = pm ? PM_SOFT : AM_SOFT;
+  const s = pool[i % pool.length];
+  return [city, s[0].replace("{c}", city), s[1], s[2]];
+};
 
-const TAG_ICON={culture:"fa-landmark",nature:"fa-mountain-sun",food:"fa-utensils",adventure:"fa-person-hiking",beach:"fa-umbrella-beach",history:"fa-monument",spiritual:"fa-place-of-worship"};
+const TAG_ICON={culture:"fa-landmark",nature:"fa-mountain-sun",food:"fa-utensils",adventure:"fa-person-hiking",beach:"fa-umbrella-beach",history:"fa-monument",spiritual:"fa-place-of-worship",transit:"fa-plane-departure"};
 const TIER={budget:{d:.55,f:.8,label:"Budget"},mid:{d:1,f:1,label:"Mid-range"},luxury:{d:2.2,f:2.4,label:"Luxury"}};
 const money=n=>"$"+(Math.round(n/5)*5).toLocaleString();
 const monthMult=(c,m)=>DEST[c].peak.includes(m)?1.22:DEST[c].low.includes(m)?.82:1;
 const seasonLabel=(c,m)=>DEST[c].peak.includes(m)?"peak season":DEST[c].low.includes(m)?"low season":"shoulder season";
 
-/* ---- itinerary ---- */
+/* ---- itinerary: allocate the trip across REAL city legs, in route order ----
+   Short trips take the first legs and stay put. Longer trips add legs AND
+   lengthen stays. Moving between legs costs a travel day, shown explicitly.
+   You never bounce back to a city you already left.                        */
+function legCount(days,max){
+  let n;
+  if(days<=3)       n=1;
+  else if(days<=5)  n=2;
+  else if(days<=8)  n=3;
+  else if(days<=12) n=4;
+  else if(days<=17) n=5;
+  else              n=6;
+  return Math.max(1, Math.min(n, max));
+}
+
+function allocateDays(days,weights,minStay){
+  const sum=weights.reduce((a,b)=>a+b,0);
+  let alloc=weights.map(w=>Math.max(minStay, Math.round(days*w/sum)));
+  let diff=days-alloc.reduce((a,b)=>a+b,0), guard=0;
+  while(diff!==0 && guard++<500){
+    // add days to the legs that "want" them most; take days from the longest stays
+    let idx;
+    if(diff>0){
+      idx=weights.reduce((best,w,i)=>(w/alloc[i] > weights[best]/alloc[best] ? i : best),0);
+      alloc[idx]++; diff--;
+    }else{
+      idx=alloc.reduce((best,a,i)=>(a>alloc[best] ? i : best),0);
+      if(alloc[idx]<=minStay) break;
+      alloc[idx]--; diff++;
+    }
+  }
+  return alloc;
+}
+
 function buildItinerary(code,days){
-  const d=DEST[code]; let slots=[...d.exp]; const need=days*2; let i=0;
-  while(slots.length<need){ const f=[...FLEX[i%FLEX.length]]; if(!f[0]) f[0]=d.exp[i%d.exp.length][0]; slots.push(f); i++; }
-  slots=slots.slice(0,need);
-  const out=[];
-  for(let n=0;n<days;n++){ const am=slots[n*2],pm=slots[n*2+1]; out.push({day:n+1,city:am[0]||pm[0],am,pm}); }
+  const d=DEST[code];
+  const legs=d.legs;
+  if(!legs || !legs.length) return [];            // routes are required
+
+  const n=legCount(days,legs.length);
+  const chosen=legs.slice(0,n);
+  const minStay=days<=3?1:2;
+  const alloc=allocateDays(days,chosen.map(l=>l.n||2),minStay);
+
+  const out=[]; let dayNo=1;
+  chosen.forEach((leg,li)=>{
+    const heroes=[...leg.e];
+    let sAM=0, sPM=0;
+    const next=(pm)=> heroes.length
+      ? [leg.c, ...heroes.shift()]
+      : softSlot(leg.c, pm ? sPM++ : sAM++, pm);
+    for(let i=0;i<alloc[li];i++){
+      let am,pm;
+      if(i===0){
+        // arrival / travel day: how you get here, then ease into the first thing
+        am=[leg.c, leg.t || (li===0?"Arrive in "+leg.c:"Travel to "+leg.c), "transit",
+            li===0?"land, drop bags, get oriented":"onward — leave after breakfast"];
+        pm=next(true);
+      }else{
+        am=next(false); pm=next(true);
+      }
+      out.push({day:dayNo++, city:leg.c, am, pm, nights:alloc[li]});
+    }
+  });
+  // finish the trip honestly — you do have to fly home
+  if(out.length>1){
+    const last=out[out.length-1];
+    last.pm=[last.city, "Depart from "+last.city, "transit", "last coffee, then the airport"];
+  }
   return out;
 }
 
@@ -92,11 +173,33 @@ function render(code,days,travelers,tierKey,month){
   document.getElementById("resTitle").innerHTML=`${d.emoji} ${d.name} · <span>${days} days</span>`;
   document.getElementById("resSub").textContent=`${TIER[tierKey].label} · ${travelers} traveler${travelers>1?"s":""} · ${seasonLabel(code,month)}`;
 
-  document.getElementById("itinerary").innerHTML=buildItinerary(code,days).map(day=>{
-    const slot=s=>`<div class="slot"><i class="fa-solid ${TAG_ICON[s[2]]||"fa-location-dot"}"></i><div><strong>${s[1]}</strong><span>${s[0]?s[0]+" · ":""}${s[3]}</span></div></div>`;
-    return `<div class="dayrow"><div class="daynum">Day ${day.day}<em>${day.city}</em></div>
+  const it=buildItinerary(code,days);
+
+  // honest pacing note when the trip runs longer than the country's natural route
+  const cap=(d.legs||[]).reduce((a,l)=>a+(l.n||2),0);
+  const paceEl=document.getElementById("paceNote");
+  if(paceEl){
+    if(days > cap*1.25){
+      paceEl.style.display="block";
+      paceEl.innerHTML=`<i class="fa-solid fa-circle-info"></i> <strong>A note on pace:</strong> ${days} days is a long stay for ${d.name.split(" (")[0]} — this route naturally runs about ${cap} days. We've spread the extra time as unstructured days rather than inventing filler. Most travelers this long pair it with a neighbouring country, which is worth flagging at your consult (a second country can change your vaccine and medication plan).`;
+    } else { paceEl.style.display="none"; }
+  }
+
+  let prevCity=null;
+  document.getElementById("itinerary").innerHTML=it.map(day=>{
+    const slot=s=>{
+      const transit = s[2]==="transit";
+      return `<div class="slot${transit?" move":""}"><i class="fa-solid ${TAG_ICON[s[2]]||"fa-location-dot"}"></i>
+        <div><strong>${s[1]}</strong><span>${s[3]}</span></div></div>`;
+    };
+    const newLeg = day.city!==prevCity;
+    prevCity = day.city;
+    const header = newLeg
+      ? `<div class="legbar"><i class="fa-solid fa-location-dot"></i> ${day.city}<em>${day.nights} ${day.nights===1?"day":"days"}</em></div>`
+      : "";
+    return header + `<div class="dayrow"><div class="daynum">Day ${day.day}</div>
       <div class="dayslots">${slot(day.am)}${slot(day.pm)}
-      <div class="slot dine"><i class="fa-solid fa-wine-glass"></i><div><strong>Evening</strong><span>Local dining &amp; wander</span></div></div></div></div>`;
+      <div class="slot dine"><i class="fa-solid fa-wine-glass"></i><div><strong>Evening</strong><span>Dinner &amp; wander in ${day.city}</span></div></div></div></div>`;
   }).join("");
 
   const b=calcBudget(code,days,travelers,tierKey,month);

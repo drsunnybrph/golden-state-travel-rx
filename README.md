@@ -115,3 +115,31 @@ Worker, keeping the key server-side) and merge the result into the same UI — n
 **Re-audit before each major update.** Advisory levels, outbreak notices, and malaria maps
 change. The live Worker feed keeps notices/advisories current automatically; the coarse risk
 profile in `plan-data.js` is the part that needs a human (you) to re-check periodically.
+
+## Itinerary routing (`plan-legs.js`) — the fix for city ping-ponging
+Early versions paired experiences off a flat list and cycled cities for filler days, which
+produced nonsense like Cartagena → Medellín → Bogotá → Coffee Region → **back to Cartagena**.
+
+Each country is now a **route**: an ordered list of city legs, each with suggested nights and
+a transit line ("Fly to Medellín (1h30)"). The builder allocates the traveler's days across
+those legs *in order*:
+- Short trips take the first legs and stay put; long trips add legs AND lengthen stays.
+- Moving between cities costs a **travel day**, shown explicitly.
+- Extra days become in-city free time — never a jump back to a city you already left.
+- The trip ends with a departure day.
+- If the requested trip is much longer than the route naturally supports (e.g. 21 days in
+  Singapore), an honest pacing note says so rather than inventing filler.
+
+Verified: 43 countries × 19 trip lengths = **817 itineraries, all passing** (no back-tracking,
+no repeated sights, correct day counts). If you add a country, add its `legs` in route order.
+
+## Geography / privacy policy for this site
+The site is **statewide only**. No county, city, or region is named anywhere — the practice
+is positioned as "telehealth for patients anywhere in California, all 58 counties." This is
+deliberate: it protects the provider's location while accurately describing a CA-only
+furnishing scope.
+
+**Do not re-add** county/city names (Solano, Ventura, Fairfield, Vacaville, Suisun, Vallejo,
+Simi Valley, Oxnard, Thousand Oaks, Camarillo) to page copy, meta descriptions, keywords, or
+form placeholders. The legal line "Services are available to patients physically located in
+California" stays — that's scope, not location.
