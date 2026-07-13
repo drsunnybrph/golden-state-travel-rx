@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Plan Your Trip | Golden State Travel Rx — Itinerary, Safety & Budget</title>
+<meta name="description" content="Build a day-by-day travel itinerary for 40+ top destinations, see live U.S. State Department safety advisories and CDC health notices, and estimate your budget — from Golden State Travel Rx, California travel-medicine telehealth."/>
+<meta name="keywords" content="travel itinerary planner, travel safety advisory, CDC travel health notices, travel budget calculator, travel medicine California"/>
+<meta property="og:title" content="Plan Your Trip | Golden State Travel Rx"/>
+<meta property="og:description" content="Day-by-day itineraries, live government safety & health data, and a budget estimate — then get travel-ready with a pharmacist consult."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://goldenstatetravelrx.com/plan.html"/>
+<link rel="canonical" href="https://goldenstatetravelrx.com/plan.html"/>
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<meta property="og:image" content="https://goldenstatetravelrx.com/og-card.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+/* ───── Trip planner (scoped: pl-) ───── */
+.pl-wrap{max-width:1000px;margin:0 auto;padding:0 24px;}
+.pl-form{background:#fff;border:1.5px solid var(--gray4);border-radius:22px;box-shadow:var(--shadow2);padding:30px 28px;margin-top:-58px;position:relative;z-index:5;}
+.pl-form h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--forest);margin-bottom:2px;}
+.pl-form .sub{font-size:.82rem;color:var(--gray);margin-bottom:22px;}
+.pl-field{margin-bottom:18px;}
+.pl-field>label{display:block;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--emerald2);margin-bottom:8px;}
+.pl-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px;}
+select,.pl-num{width:100%;padding:13px 14px;border:1.5px solid var(--gray4);border-radius:12px;font-family:'Inter',sans-serif;font-size:.92rem;color:var(--text);background:#fff;cursor:pointer;}
+select:focus,.pl-num:focus{outline:none;border-color:var(--emerald3);box-shadow:0 0 0 3px rgba(18,132,155,.14);}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.chip{border:1.5px solid var(--gray4);background:#fff;border-radius:40px;padding:8px 16px;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;color:var(--gray);cursor:pointer;transition:.15s;}
+.chip:hover{border-color:var(--emerald3);color:var(--emerald2);}
+.chip.on{background:var(--forest);border-color:var(--forest);color:#fff;}
+.sliderrow{display:flex;align-items:center;gap:14px;}
+input[type=range]{flex:1;accent-color:var(--orange);height:6px;}
+#pDaysLabel{font-weight:700;color:var(--forest);font-family:'Inter',sans-serif;font-size:.9rem;min-width:64px;text-align:right;}
+.pl-build{width:100%;margin-top:6px;justify-content:center;font-size:.95rem;padding:15px;}
+
+.pl-results{display:none;margin-top:40px;}
+.res-head{text-align:center;margin-bottom:26px;}
+.res-head h2{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--forest);}
+.res-head h2 span{color:var(--orange);font-style:italic;}
+.res-head .rsub{font-size:.82rem;color:var(--gray);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-top:4px;}
+
+.res-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:26px;align-items:start;}
+.panel{background:#fff;border:1.5px solid var(--gray4);border-radius:20px;box-shadow:var(--shadow);padding:24px 22px;}
+.panel>h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--forest);margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+.panel>h3 i{color:var(--orange);font-size:1rem;}
+
+/* itinerary timeline */
+.dayrow{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--gray4);}
+.dayrow:first-child{border-top:none;padding-top:0;}
+.daynum{font-family:'Inter',sans-serif;font-weight:700;color:var(--forest);font-size:.9rem;}
+.daynum em{display:block;font-style:normal;font-weight:500;font-size:.72rem;color:var(--emerald2);margin-top:3px;}
+.slot{display:flex;gap:10px;align-items:flex-start;padding:7px 0;}
+.slot i{color:var(--emerald3);font-size:.85rem;width:18px;text-align:center;margin-top:3px;flex-shrink:0;}
+.slot strong{display:block;font-family:'Inter',sans-serif;font-size:.86rem;color:var(--text);font-weight:600;}
+.slot span{font-size:.76rem;color:var(--gray);}
+.slot.dine i{color:var(--gold2);}
+
+/* budget */
+.brow{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--gray4);font-size:.86rem;color:var(--gray);}
+.brow b{color:var(--text);font-family:'Inter',sans-serif;}
+.btot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;}
+.btot span{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--forest);font-weight:600;}
+.btot b{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--orange);}
+.bnote{font-size:.72rem;color:var(--gray2);line-height:1.5;margin-top:12px;}
+
+/* safety full-width */
+.safety-panel{grid-column:1/-1;}
+.loadingline{color:var(--gray);font-size:.86rem;padding:8px 0;}
+.advbanner{border-radius:14px;padding:18px 20px;margin-bottom:16px;border:1.5px solid;}
+.advlvl{font-family:'Inter',sans-serif;font-weight:800;font-size:1.02rem;display:flex;align-items:center;gap:9px;}
+.advcats{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
+.advcats span{background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.08);border-radius:20px;padding:3px 11px;font-size:.72rem;font-weight:600;font-family:'Inter',sans-serif;}
+.advmeta{font-size:.76rem;margin-top:10px;opacity:.9;line-height:1.6;}
+.advmeta a{font-weight:700;color:inherit;}
+.lv1{background:#EAF6EE;border-color:#8FCBA3;color:#1C6B3A;}
+.lv2{background:#FBF1DA;border-color:#E6C878;color:#8A6314;}
+.lv3{background:#FBE6DC;border-color:#E9A483;color:#A5461F;}
+.lv4{background:#F7DCDC;border-color:#E08B8B;color:#9E2A2A;}
+.notices{margin-bottom:16px;}
+.notices h4{font-family:'Inter',sans-serif;font-size:.82rem;font-weight:700;color:var(--forest);margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+.notices h4 i{color:var(--orange);}
+.notice{display:block;background:var(--orange4);border:1px solid var(--orange3);border-radius:10px;padding:9px 13px;margin-bottom:6px;font-size:.82rem;color:var(--forest);text-decoration:none;font-weight:500;}
+.notice:hover{background:#fbe3d5;}
+.notices.muted{font-size:.8rem;color:var(--gray);background:var(--gray3);border-radius:10px;padding:12px 14px;}
+.notices.muted i{color:var(--emerald3);margin-right:6px;}
+.notices.muted a{color:var(--emerald2);font-weight:600;}
+
+.healthcard{background:var(--mint);border:1.5px solid var(--mint2);border-radius:16px;padding:20px;margin-top:4px;}
+.healthcard h4{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--forest);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.healthcard h4 i{color:var(--orange);}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.hlabel{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--emerald2);}
+.hgrid ul{list-style:none;margin-top:8px;}
+.hgrid li{font-size:.83rem;color:var(--text);padding:4px 0 4px 18px;position:relative;}
+.hgrid li:before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--emerald3);}
+.hnote{font-size:.83rem;color:var(--gray);font-style:italic;margin-top:14px;}
+.hcta{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px;padding-top:16px;border-top:1px solid var(--mint2);flex-wrap:wrap;}
+.hcta strong{display:block;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--forest);}
+.hcta span{font-size:.8rem;color:var(--gray);}
+.hcta .btn-orange{white-space:nowrap;}
+.srcline{font-size:.72rem;color:var(--gray2);line-height:1.5;margin-top:16px;}
+
+
+/* risk profile cards */
+.riskgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px;}
+.rcard{border-radius:13px;padding:14px 16px;border:1.5px solid;}
+.rhead{font-family:'Inter',sans-serif;font-weight:700;font-size:.84rem;display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.rcard p{font-size:.79rem;line-height:1.55;opacity:.92;}
+.r-ok{background:#EAF6EE;border-color:#9ED3B0;color:#1C6B3A;}
+.r-warn{background:#FBF1DA;border-color:#E6C878;color:#7E5A12;}
+.r-hi{background:#FBE6DC;border-color:#E9A483;color:#9C4220;}
+.r-note{background:var(--gray3);border-color:var(--gray4);color:var(--gray);}
+.r-note .rhead{color:var(--forest);}
+.cdcline{font-size:.79rem;color:var(--gray);background:var(--slate3);border:1px solid #CFE3EC;border-radius:11px;padding:11px 14px;margin-bottom:18px;}
+.cdcline i{color:var(--emerald2);margin-right:6px;}
+.cdcline a{color:var(--emerald2);font-weight:700;}
+.healthcard h4 em{color:var(--orange);font-style:italic;}
+.healthcard p{font-size:.85rem;color:var(--gray);line-height:1.7;margin-bottom:10px;}
+.healthcard p strong{color:var(--forest);}
+
+@media(max-width:820px){ .pl-row{grid-template-columns:1fr;} .res-grid{grid-template-columns:1fr;} .hgrid{grid-template-columns:1fr;} .dayrow{grid-template-columns:74px 1fr;} }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">
+    <div class="nav-brand-icon"><img src="emblem-512.png" alt="Golden State Travel Rx emblem"/></div>
+    <div class="nav-brand-text">Golden State <span>Travel Rx</span></div>
+  </a>
+  <ul class="nav-menu" id="navMenu">
+    <li class="nav-item"><a class="nav-link" href="index.html" data-nav="home">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="travel-health.html" data-nav="travel">Travel Health</a></li>
+    <li class="nav-item"><a class="nav-link active" href="plan.html" data-nav="plan">Plan a Trip</a></li>
+    <li class="nav-item"><a class="nav-link" href="naloxone.html" data-nav="naloxone">Naloxone</a></li>
+    <li class="nav-item"><a class="nav-link" href="about.html" data-nav="about">About</a></li>
+    <li class="nav-item"><a class="nav-link" href="pay.html" data-nav="pay">Pay</a></li>
+    <li class="nav-item"><a class="nav-link nav-cta" href="book.html" data-nav="book"><i class="fa-solid fa-calendar-check"></i> Book Now</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMobileMenu()" id="hamburger" aria-label="Toggle menu">☰</button>
+</nav>
+
+<main>
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow"><i class="fa-solid fa-route"></i> Trip Planner</span>
+      <h1>Plan Your Trip. <em>Know Before You Go.</em></h1>
+      <p>Build a day-by-day itinerary for <span id="destCount">40+</span> destinations, see the current U.S. government safety advisory and CDC health risk profile for your trip, and get a budget estimate — then make it real with a pharmacist consult.</p>
+    </div>
+  </div>
+
+  <section style="padding-bottom:72px;">
+    <div class="pl-wrap">
+      <div class="pl-form">
+        <h2>Where to?</h2>
+        <p class="sub">Pick a destination and shape the trip. Everything updates instantly — no signup.</p>
+
+        <div class="pl-field">
+          <label for="pDest">Destination</label>
+          <select id="pDest"><option value="">Choose a country…</option></select>
+        </div>
+
+        <div class="pl-field">
+          <label>Trip length</label>
+          <div class="chips">
+            <button class="chip" data-d="3">3 days</button>
+            <button class="chip" data-d="5">5 days</button>
+            <button class="chip" data-d="7">7 days</button>
+            <button class="chip" data-d="9">9 days</button>
+            <button class="chip" data-d="10">10 days</button>
+            <button class="chip" data-d="14">14 days</button>
+          </div>
+          <div class="sliderrow">
+            <input type="range" id="pDays" min="3" max="21" step="1" value="7"/>
+            <span id="pDaysLabel">7 days</span>
+          </div>
+        </div>
+
+        <div class="pl-row">
+          <div class="pl-field" style="margin:0;">
+            <label for="pMonth">When</label>
+            <select id="pMonth" class="pl-num">
+              <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+              <option value="4">April</option><option value="5">May</option><option value="6" selected>June</option>
+              <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+              <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+            </select>
+          </div>
+          <div class="pl-field" style="margin:0;">
+            <label for="pTravelers">Travelers</label>
+            <select id="pTravelers" class="pl-num">
+              <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option>
+              <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+            </select>
+          </div>
+          <div class="pl-field" style="margin:0;">
+            <label for="pTier">Style</label>
+            <select id="pTier" class="pl-num">
+              <option value="budget">Budget</option><option value="mid" selected>Mid-range</option><option value="luxury">Luxury</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-orange pl-build" id="pBuild"><i class="fa-solid fa-wand-magic-sparkles"></i> Build my trip</button>
+      </div>
+
+      <!-- results -->
+      <div class="pl-results" id="planResults">
+        <div class="res-head">
+          <h2 id="resTitle"></h2>
+          <div class="rsub" id="resSub"></div>
+        </div>
+
+        <div class="res-grid">
+          <div class="panel">
+            <h3><i class="fa-solid fa-map-location-dot"></i> Your itinerary</h3>
+            <div id="itinerary"></div>
+          </div>
+          <div class="panel">
+            <h3><i class="fa-solid fa-wallet"></i> Budget estimate</h3>
+            <div id="budget"></div>
+          </div>
+          <div class="panel safety-panel">
+            <h3><i class="fa-solid fa-shield-heart"></i> Safety &amp; health risk profile</h3>
+            <div id="safety"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Golden State <span>Travel Rx</span></div>
+        <div class="footer-tagline">"Clinical expertise without the waiting room."<br/>Dr. Sunny B, PharmD — Licensed California Pharmacist<br/>Independent travel-medicine consultations &amp; medication furnishing<br/>Telehealth across California · Based in Solano &amp; Ventura County</div>
+        <div style="margin-top:10px;"><a href="mailto:drsunnybrph@gmail.com" style="color:rgba(255,255,255,.45);font-size:.77rem;text-decoration:none;font-family:'Inter',sans-serif;"><i class="fa-solid fa-envelope" style="font-size:.7rem;color:var(--emerald4);margin-right:5px;"></i>drsunnybrph@gmail.com</a></div>
+      </div>
+      <div class="footer-col"><h4>Travel Health</h4><ul>
+        <li><a href="travel-health.html"><i class="fa-solid fa-plane-departure"></i>Consultations</a></li>
+        <li><a href="plan.html"><i class="fa-solid fa-route"></i>Plan a Trip</a></li>
+        <li><a href="travel-health.html#pricing"><i class="fa-solid fa-tag"></i>Pricing</a></li>
+        <li><a href="naloxone.html"><i class="fa-solid fa-kit-medical"></i>Naloxone Furnishing</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Practice</h4><ul>
+        <li><a href="about.html"><i class="fa-solid fa-user-doctor"></i>About the Practice</a></li>
+        <li><a href="book.html"><i class="fa-solid fa-calendar-check"></i>Book a Consult</a></li>
+        <li><a href="pay.html"><i class="fa-solid fa-credit-card"></i>Pay Now</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul>
+        <li><a href="mailto:drsunnybrph@gmail.com"><i class="fa-solid fa-envelope"></i>Email</a></li>
+        <li><a href="book.html"><i class="fa-solid fa-clock"></i>Schedule Online</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <div class="footer-legal">© 2026 Golden State Travel Rx · Dr. Sunny B, PharmD · Licensed California Pharmacist — a Doctor of Pharmacy, not a medical doctor (active license on file).<br/>Trip-planning content, safety data (U.S. Department of State), and health notices (U.S. CDC Travelers' Health) are provided for general educational purposes and are not individualized medical, legal, or travel advice. Advisory levels and health notices change frequently; always confirm the official source before you travel. Travel medications are furnished under independent pharmacist authority pursuant to California Business &amp; Professions Code § 4052(a)(10)(A)(3) and 16 CCR § 1746.5. Naloxone is furnished pursuant to the statewide protocol under California Business &amp; Professions Code § 4052.01 and 16 CCR § 1746.3. Furnishing is limited to CDC-recommended travel medications that do not require a diagnosis and to naloxone under the statewide protocol. Services are available to patients physically located in California. No on-site vaccinations; required immunizations are referred to a local clinic. Not a substitute for emergency care or your primary care provider.</div>
+      </div>
+      <div class="footer-love"><i class="fa-solid fa-plane-departure"></i> Clinical expertise without the waiting room.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="plan-data.js"></script>
+<script src="plan.js"></script>
+</body>
+</html>

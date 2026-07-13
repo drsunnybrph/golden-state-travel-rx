@@ -58,3 +58,60 @@ Push to repo root → Settings → Pages → Deploy from branch → `main` / roo
   `goldenstatetravelrx.com` absolute URL, so previews only render once that domain is live;
   until then it's harmless. All images are AI-generated originals (generic grizzly, no Bear
   Flag/state seal) — free for you to use.
+
+## Trip Planner (`plan.html` + `plan-data.js` + `plan.js`)
+Interactive planner: day-by-day itineraries for 43 countries, live U.S. State Dept safety
+advisories + CDC health notices, a CDC-sourced risk profile, and a budget estimate — all
+client-side and free to run.
+
+### ⚠️ DESIGN RULE — read before editing `plan-data.js`
+The destination library deliberately contains **NO specific vaccine or drug recommendations.**
+Malaria/yellow-fever/food-water risk varies by REGION, SEASON and the traveler's own health —
+CDC says so explicitly. Country-level drug lists are misleading (e.g. CDC reports no malaria
+in Bangkok, Chiang Mai, Phuket, Ubud or the Bali resorts, so "malaria meds for Thailand/Bali"
+is wrong for most tourist itineraries) and they go stale (Sri Lanka, Maldives, Egypt, Argentina
+and China are all now WHO-certified malaria-free).
+
+So the page publishes: (1) a coarse, factual RISK PROFILE sourced to CDC, and (2) a deep link
+to the official CDC destination page — and states plainly that the specific plan is what the
+CONSULT produces. That is both the defensible position for a licensed pharmacist and the
+better funnel: it creates the need instead of giving away a (possibly wrong) answer.
+**Do not add drug names to this file.**
+It's a lead funnel: every destination ends in a "Book a consult" call-to-action.
+
+**It works immediately on its own** using curated per-country safety/health summaries.
+To turn on the *live* government feeds, deploy the Worker below and paste its URL into
+`plan.js` → `const WORKER_URL = "…"`. Until then it gracefully shows the curated fallback.
+
+## Feeds Worker (`worker.js` — deploy to Cloudflare, NOT part of the website)
+`worker.js` is a Cloudflare Worker (free tier) that fetches, parses, caches (6h), and
+CORS-serves two public-domain U.S. government RSS feeds so the static site can read them:
+State Dept travel advisories + CDC Travelers' Health notices.
+
+Deploy (~2 min, free):
+1. cloudflare.com → Workers & Pages → Create → Worker
+2. Paste the contents of `worker.js`, click Deploy
+3. Copy the URL (e.g. `https://gstr-feeds.YOURNAME.workers.dev`)
+4. In `plan.js`, set `WORKER_URL` to that URL, re-upload `plan.js`
+
+`worker.js` does not need to live in your GitHub repo — it runs on Cloudflare. It's kept
+here only as the source of record. Both feeds are U.S. government works (public domain).
+
+## AI upgrade (later)
+The planner is "hybrid": the itinerary comes from the curated library today. To add live
+AI generation later, we point the "Build my trip" action at a Claude API call (through a
+Worker, keeping the key server-side) and merge the result into the same UI — no redesign.
+
+### Accuracy audit (July 2026)
+- CDC destination slugs verified live against `wwwnc.cdc.gov` (incl. Türkiye → `turkey`,
+  which CDC still serves under the old slug despite displaying "Türkiye (Turkey)").
+- **Türkiye corrected to "malaria in certain regions"** — CDC's own destination page states
+  malaria is a risk in some parts of Türkiye, so a "no risk" badge would have contradicted
+  the page linked right next to it.
+- Malaria-free claims are anchored to WHO certification dates (Sri Lanka 2016, Maldives 2015,
+  Argentina 2019, Egypt Oct 2024) rather than to a clinical recommendation.
+- Verified: 0 drug names and 0 prophylaxis recommendations anywhere in the public data.
+
+**Re-audit before each major update.** Advisory levels, outbreak notices, and malaria maps
+change. The live Worker feed keeps notices/advisories current automatically; the coarse risk
+profile in `plan-data.js` is the part that needs a human (you) to re-check periodically.

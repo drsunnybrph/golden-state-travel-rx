@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nav = link.dataset.nav;
     if (nav === 'home'   && (page === 'index.html' || page === '')) link.classList.add('active');
     if (nav === 'travel' && page === 'travel-health.html')          link.classList.add('active');
+    if (nav === 'plan'   && page === 'plan.html')                   link.classList.add('active');
     if (nav === 'naloxone' && page === 'naloxone.html')             link.classList.add('active');
     if (nav === 'about'  && page === 'about.html')                  link.classList.add('active');
     if (nav === 'pay'    && page === 'pay.html')                    link.classList.add('active');
